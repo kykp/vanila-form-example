@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <meta name="format-detection" content="telephone=no">
+  <link href="style.css" rel="stylesheet">
+
+  <title>Примчим</title>
+</head>
+
+<body>
+<main>
+  <section class="order" id="orderFormBlock">
+    <div class="container">
+      <h2>Оформить заказ</h2>
+      <div class="order__form-container">
+        <form action="" class="form order-block" id="orderForm">
+          <div class="form__row">
+            <div class="input">
+              <div class="error-message">Fail text</div>
+              <input
+                type="date"
+                name="date"
+                id="orderFormDate"
+                autocomplete="off"
+              />
+              <label for="orderFormDate">Дата начала</label>
+            </div>
+            <div class="input">
+              <div class="error-message">Fail text</div>
+              <input type="time" name="time" placeholder="" id="orderFormTime">
+              <label for="orderFormTime">Время начала</label>
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="input-wrap">
+              <div class="input-wrap__title">На сколько часов?</div>
+              <div class="input input_counter">
+                <div class="error-message">Fail text</div>
+                <button type="button" class="counter-btn counter-btn_minus">
+                  <svg>
+                    <use xlink:href="img/sprite.svg#minus"></use>
+                  </svg>
+                </button>
+                <input type="number" name="hours" value="0" min="0" readonly id="orderFormHours">
+                <button type="button" class="counter-btn counter-btn_plus">
+                  <svg>
+                    <use xlink:href="img/sprite.svg#plus"></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="input-wrap">
+              <div class="input-wrap__title">Количество грузчиков</div>
+              <div class="input input_counter">
+                <div class="error-message">Fail text</div>
+                <button type="button" class="counter-btn counter-btn_minus">
+                  <svg>
+                    <use xlink:href="img/sprite.svg#minus"></use>
+                  </svg>
+                </button>
+                <input type="number" name="people" value="0" min="0" readonly id="orderFormPeople">
+                <button type="button" class="counter-btn counter-btn_plus">
+                  <svg>
+                    <use xlink:href="img/sprite.svg#plus"></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="input-wrap">
+              <div class="input-wrap__title">Количество машин</div>
+              <div class="input input_counter">
+                <div class="error-message">Fail text</div>
+                <button type="button" class="counter-btn counter-btn_minus">
+                  <svg>
+                    <use xlink:href="img/sprite.svg#minus"></use>
+                  </svg>
+                </button>
+                <input type="number" name="machines" value="0" min="0" readonly id="orderFormMachines">
+                <button type="button" class="counter-btn counter-btn_plus">
+                  <svg>
+                    <use xlink:href="img/sprite.svg#plus"></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="input">
+              <div class="error-message">Fail text</div>
+              <input type="text" name="addressFrom" placeholder="" id="orderFormAddressFrom">
+              <label for="orderFormAddressFrom">Откуда перевозим</label>
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="input">
+              <div class="error-message">Fail text</div>
+              <input type="text" name="addressTo" placeholder="" id="orderFormAddressTo">
+              <label for="orderFormAddressTo">Куда перевозим</label>
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="input">
+              <div class="error-message">Fail text</div>
+              <input type="text" name="name" placeholder="" id="orderFormName">
+              <label for="orderFormName">Ваше имя</label>
+            </div>
+            <div class="input">
+              <div class="error-message">Fail text</div>
+              <input type="tel" name="tel" placeholder="" id="orderFormTel">
+              <label for="orderFormTel">Телефон</label>
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="input">
+              <input type="text" name="comment" placeholder="" id="orderFormComment">
+              <label for="orderFormComment">Комментарий к заказу</label>
+            </div>
+          </div>
+        </form>
+        <div class="order-block order-block_summary">
+          <div class="order-block__title">Итоговая стоимость заказа</div>
+          <div class="order-block__total"><span id="orderFormTotal">0</span> ₽</div>
+          <button class="btn" type="submit" form="orderForm" id="orderFormButton">Оформить заказ</button>
+        </div>
+        <div class="order-block order-block_consult">
+          <div class="order-block__title">Остались вопросы?</div>
+          <div class="order-block__subtitle">Оставьте заявку и наш менеджер свяжется с вами и проконсультирует по всем
+            вопросам
+          </div>
+          <button class="btn btn_light" data-dialog-query="consult">Получить консультацию</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="index.js"></script>
+</body>
+
+</html>
