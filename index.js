@@ -29,23 +29,23 @@ function initForm() {
   }
 
   const formErrors = {};
-
+  const requiredFields = ['date', 'time', 'addressFrom', 'addressTo', 'name', 'tel'];
   const form = document.getElementById('orderForm');
   const submitButton = document.getElementById('orderFormButton');
   const inputs = form.querySelectorAll('input');
   const inputCounters = document.querySelectorAll('.input_counter');
 
   // инициализация инпутов без счетчиков
-  initInputsWithOutButtons(formValues, inputs, formErrors, form);
+  initInputsWithOutButtons(formValues, inputs, formErrors, form, requiredFields);
   // инициализация инпутов счетчиков
   initInputsWithButtons(formValues, inputCounters);
 
 
   submitButton.addEventListener('click', (e) => {
     e.preventDefault();
-    inputValidation(formValues, formErrors, form);
+    inputsValidation(requiredFields, formValues, formErrors, form);
 
-    if(Object.keys(formErrors).length >= 1) {
+    if (Object.keys(formErrors).length >= 1) {
       return console.log('Форма не отправлена есть не заполненые обязательные поля')
     }
 
@@ -81,9 +81,7 @@ function initInputsWithButtons(formValues, inputCounters) {
   });
 }
 
-function initInputsWithOutButtons(formValues, inputs, formErrors, form) {
-  const requiredFields = ['date', 'time', 'addressFrom', 'addressTo', 'name', 'tel'];
-
+function initInputsWithOutButtons(formValues, inputs, formErrors, form, requiredFields) {
   inputs.forEach(input => {
     // Проверяем, что текущий инпут имеет кнопоки внутри и прощаемся с ним
     if (input.closest('.input_counter')) {
@@ -92,14 +90,14 @@ function initInputsWithOutButtons(formValues, inputs, formErrors, form) {
     input.addEventListener('input', (e) => {
       const inputType = e.currentTarget.type;
       const name = e.currentTarget.name;
+
       if (inputType === 'tel') {
         handleTelInput(e.currentTarget, formValues)
       }
+
       formValues[name] = e.currentTarget.value;
 
-      if(requiredFields.includes(name)) {
-        inputValidation(formValues, formErrors, form)
-      }
+      inputValidation(form, name, requiredFields, formValues, formErrors)
     })
   });
 }
@@ -151,11 +149,34 @@ function createPhoneMask(phone) {
 }
 
 /**
+ * Функция валидации одного поля
+ * @param form
+ * @param fieldName
+ * @param formRequired
+ * @param formValues
+ * @param formErrors
+ * @returns {null}
+ */
+function inputValidation (form, fieldName, formRequired, formValues, formErrors) {
+  if(!formRequired.includes(fieldName)) {
+    return null;
+  }
+  if(!formValues[fieldName]) {
+    formErrors[fieldName] = errorMessages.requiredField;
+    setError(form, fieldName, errorMessages.requiredField, 'input_invalid');
+  }else if (fieldName === 'tel' && formValues[field].length < 18) {
+    formErrors[fieldName] = errorMessages.minPhone;
+    setError(form, fieldName, errorMessages.minPhone, 'input_invalid');
+  } else if (fieldName in formErrors) {
+    delete formErrors[fieldName];
+    clearError(form, fieldName, 'input_invalid');
+  }
+}
+
+/**
  * функция валидации с установкой ui валидации
  */
-function inputValidation (formValues, formErrors, form) {
-  const requiredFields = ['date', 'time', 'addressFrom', 'addressTo', 'name', 'tel'];
-
+function inputsValidation(requiredFields, formValues, formErrors, form) {
   requiredFields.forEach(field => {
     if (!formValues[field]) {
       formErrors[field] = errorMessages.requiredField;
@@ -163,7 +184,7 @@ function inputValidation (formValues, formErrors, form) {
     } else if (field === 'tel' && formValues[field].length < 18) {
       formErrors[field] = errorMessages.minPhone;
       setError(form, field, errorMessages.minPhone, 'input_invalid');
-    } else if (field in formErrors){
+    } else if (field in formErrors) {
       delete formErrors[field];
       clearError(form, field, 'input_invalid');
     }
@@ -197,7 +218,7 @@ function clearError(form, field, errorClass) {
   inputParent.classList.remove(errorClass);
 }
 
-function calculateOrderCost (formValues) {
+function calculateOrderCost(formValues) {
   let totalPrice = 0;
 
   // Проверяем, есть ли какие-либо услуги в заказе
@@ -216,7 +237,7 @@ function calculateOrderCost (formValues) {
 /**
  * Установка значения в поле с ценой
  */
-function setTotalAmount (totalPrice) {
+function setTotalAmount(totalPrice) {
   const sumField = document.querySelector('#orderFormTotal');
   sumField.textContent = totalPrice;
 }
