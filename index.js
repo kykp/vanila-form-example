@@ -43,7 +43,8 @@ function initForm() {
 
   submitButton.addEventListener('click', (e) => {
     e.preventDefault();
-    inputsValidation(requiredFields, formValues, formErrors, form);
+
+    checkAllRequiredFields(requiredFields, form, formValues, formErrors)
 
     if (Object.keys(formErrors).length >= 1) {
       return console.log('Форма не отправлена есть не заполненые обязательные поля')
@@ -149,6 +150,17 @@ function createPhoneMask(phone) {
 }
 
 /**
+ * Проверка всех полей на валидацию
+ * @param requiredFields
+ * @param form
+ * @param formValues
+ * @param formErrors
+ */
+function checkAllRequiredFields(requiredFields, form, formValues, formErrors) {
+  requiredFields.forEach(fieldName => inputValidation(form, fieldName, requiredFields, formValues, formErrors))
+}
+
+/**
  * Функция валидации одного поля
  * @param form
  * @param fieldName
@@ -157,38 +169,23 @@ function createPhoneMask(phone) {
  * @param formErrors
  * @returns {null}
  */
-function inputValidation (form, fieldName, formRequired, formValues, formErrors) {
-  if(!formRequired.includes(fieldName)) {
+function inputValidation(form, fieldName, formRequired, formValues, formErrors) {
+  if (!formRequired.includes(fieldName)) {
     return null;
   }
-  if(!formValues[fieldName]) {
+
+  console.log('fieldName', fieldName)
+  console.log('formValues[fieldName]', formValues[fieldName])
+  if (!formValues[fieldName]) {
     formErrors[fieldName] = errorMessages.requiredField;
     setError(form, fieldName, errorMessages.requiredField, 'input_invalid');
-  }else if (fieldName === 'tel' && formValues[field].length < 18) {
+  } else if (fieldName === 'tel' && formValues[fieldName].length < 18) {
     formErrors[fieldName] = errorMessages.minPhone;
     setError(form, fieldName, errorMessages.minPhone, 'input_invalid');
   } else if (fieldName in formErrors) {
     delete formErrors[fieldName];
     clearError(form, fieldName, 'input_invalid');
   }
-}
-
-/**
- * функция валидации с установкой ui валидации
- */
-function inputsValidation(requiredFields, formValues, formErrors, form) {
-  requiredFields.forEach(field => {
-    if (!formValues[field]) {
-      formErrors[field] = errorMessages.requiredField;
-      setError(form, field, errorMessages.requiredField, 'input_invalid');
-    } else if (field === 'tel' && formValues[field].length < 18) {
-      formErrors[field] = errorMessages.minPhone;
-      setError(form, field, errorMessages.minPhone, 'input_invalid');
-    } else if (field in formErrors) {
-      delete formErrors[field];
-      clearError(form, field, 'input_invalid');
-    }
-  })
 }
 
 /**
