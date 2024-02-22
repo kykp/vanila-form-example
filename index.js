@@ -82,6 +82,8 @@ function initInputsWithButtons(formValues, inputCounters) {
 }
 
 function initInputsWithOutButtons(formValues, inputs, formErrors, form) {
+  const requiredFields = ['date', 'time', 'addressFrom', 'addressTo', 'name', 'tel'];
+
   inputs.forEach(input => {
     // Проверяем, что текущий инпут имеет кнопоки внутри и прощаемся с ним
     if (input.closest('.input_counter')) {
@@ -95,7 +97,9 @@ function initInputsWithOutButtons(formValues, inputs, formErrors, form) {
       }
       formValues[name] = e.currentTarget.value;
 
-      inputValidation(formValues, formErrors, form)
+      if(requiredFields.includes(name)) {
+        inputValidation(formValues, formErrors, form)
+      }
     })
   });
 }
