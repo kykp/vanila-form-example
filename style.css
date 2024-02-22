@@ -107,7 +107,7 @@ img {
   border-radius: 12px;
   border: none;
   cursor: pointer;
-  background: #F8F32B;
+  background: #2b9cf8;
   padding: 16px 32px;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
@@ -121,7 +121,7 @@ img {
   -ms-flex-pack: center;
   justify-content: center;
   height: 56px;
-  color: #2B2D42;
+  color: white;
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
@@ -130,12 +130,12 @@ img {
 
 .btn:hover,
 .btn:active {
-  background: #FFFC77;
+  background: #6157ec;
 }
 
 .btn_dark {
-  background: #2B2D42;
-  color: #FFFFFF;
+  background: #2f40d3;
+  color: black;
 }
 
 .btn_dark:hover,
