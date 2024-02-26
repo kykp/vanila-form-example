@@ -41,10 +41,10 @@ function initForm() {
   initInputsWithButtons(formValues, inputCounters);
 
 
-  submitButton.addEventListener('click', (e) => {
-    e.preventDefault();
+  submitButton.addEventListener('click', (event) => {
+    event.preventDefault();
 
-    checkAllRequiredFields(requiredFields, form, formValues, formErrors)
+    checkAllRequiredFields(requiredFields, formValues, formErrors, event)
 
     if (Object.keys(formErrors).length >= 1) {
       return console.log('Форма не отправлена есть не заполненые обязательные поля')
@@ -152,12 +152,13 @@ function createPhoneMask(phone) {
 /**
  * Проверка всех полей на валидацию
  * @param requiredFields
- * @param form
  * @param formValues
  * @param formErrors
+ * @param event
  */
-function checkAllRequiredFields(requiredFields, form, formValues, formErrors) {
-  requiredFields.forEach(fieldName => inputValidation(form, fieldName, requiredFields, formValues, formErrors))
+function checkAllRequiredFields(requiredFields, formValues, formErrors, event) {
+  const formNode = event.target.form;
+  requiredFields.forEach(fieldName => inputValidation(formNode, fieldName, requiredFields, formValues, formErrors))
 }
 
 /**
@@ -174,8 +175,6 @@ function inputValidation(form, fieldName, formRequired, formValues, formErrors) 
     return null;
   }
 
-  console.log('fieldName', fieldName)
-  console.log('formValues[fieldName]', formValues[fieldName])
   if (!formValues[fieldName]) {
     formErrors[fieldName] = errorMessages.requiredField;
     setError(form, fieldName, errorMessages.requiredField, 'input_invalid');
